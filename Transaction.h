@@ -14,9 +14,9 @@ using std::ofstream;
  *
 */
 struct Transaction {
-    unsigned int value;
-    string sender;
-    string receiver;
+    unsigned int mem_value;
+    string mem_sender;
+    string mem_receiver;
 };
 
 

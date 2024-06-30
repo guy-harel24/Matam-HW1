@@ -8,6 +8,12 @@
 
 using namespace std;
 
+void TransactionDumpInfo(const Transaction& transaction, ofstream& file)
+{
+    file << "Sender Name: " << transaction.mem_sender << endl;
+    file << "Receiver Name: " << transaction.mem_receiver << endl;
+    file << "Transaction Value: " << transaction.mem_value << endl;
+}
 /**
  * TransactionHashMessage - Hashs the message of the transaction
  *
@@ -16,7 +22,7 @@ using namespace std;
  * @return The hashed message
 */
 string TransactionHashedMessage(const Transaction &transaction) {
-    return ::hash(transaction.value, transaction.sender, transaction.receiver);
+    return ::hash(transaction.mem_value, transaction.mem_sender, transaction.mem_receiver);
 }
 
 
