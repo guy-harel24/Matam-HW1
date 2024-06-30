@@ -3,8 +3,10 @@
 
 #include <string>
 #include <fstream>
-
 #include "Transaction.h"
+
+#define STARTING_SIZE 0
+
 
 using std::string;
 using std::ifstream;
@@ -15,14 +17,24 @@ typedef unsigned int (*updateFunction)(unsigned int);
 
 
 /**
-*
- * BlockChain - Defining the new BlockChain Type
  *
-*/
-struct BlockChain {
-    // You may add any fields you believe are necessary
+ * @struct Block - Defining a struct for the chain of blocks
+ * @note - Added struct
+ * @author - Eden
+ */
+struct Block {
+    Transaction transaction;
+    string timestamp;
+    Block *previousTransaction;
 };
 
+/**
+ * @struct BlockChain - Defining the new BlockChain Type
+*/
+struct BlockChain {
+    Block *head = nullptr;
+    int size = STARTING_SIZE;
+};
 
 /**
  * BlockChainGetSize - returns the number of Blocks in the BlockChain
@@ -30,8 +42,9 @@ struct BlockChain {
  * @param blockChain - BlockChain to measure
  *
  * @return Number of Blocks in the BlockChain
+ * @editor Eden
 */
-int BlockChainGetSize(const BlockChain& blockChain);
+int BlockChainGetSize(const BlockChain &blockChain);
 
 
 /**
@@ -41,8 +54,9 @@ int BlockChainGetSize(const BlockChain& blockChain);
  * @param name - Name of the person to calculate the balance for
  *
  * @return Balance of the person
+ * @editor Eden
 */
-int BlockChainPersonalBalance(const BlockChain& blockChain, const string& name);
+int BlockChainPersonalBalance(const BlockChain &blockChain, const string &name);
 
 
 /**
@@ -53,13 +67,14 @@ int BlockChainPersonalBalance(const BlockChain& blockChain, const string& name);
  * @param sender Name of the sender
  * @param receiver Name of the receiver
  * @param timestamp String that holds the time the transaction was made
+ * @editor Eden
 */
 void BlockChainAppendTransaction(
-        BlockChain& blockChain,
+        BlockChain &blockChain,
         unsigned int value,
-        const string& sender,
-        const string& receiver,
-        const string& timestamp
+        const string &sender,
+        const string &receiver,
+        const string &timestamp
 );
 
 
@@ -69,11 +84,12 @@ void BlockChainAppendTransaction(
  * @param blockChain BlockChain to append the transaction to
  * @param transaction Transaction we want to append
  * @param timestamp String that holds the time the transaction was made
+ * @editor Eden
 */
 void BlockChainAppendTransaction(
-        BlockChain& blockChain,
-        const Transaction& transaction,
-        const string& timestamp
+        BlockChain &blockChain,
+        const Transaction &transaction,
+        const string &timestamp
 );
 
 
@@ -85,7 +101,7 @@ void BlockChainAppendTransaction(
  * @return BlockChain created from the file
  *
 */
-BlockChain BlockChainLoad(ifstream& file);
+BlockChain BlockChainLoad(ifstream &file);
 
 
 /**
@@ -104,8 +120,7 @@ BlockChain BlockChainLoad(ifstream& file);
  * @param file File to print to
  *
 */
-void BlockChainDump(const BlockChain& blockChain, ofstream& file);
-
+void BlockChainDump(const BlockChain &blockChain, ofstream &file);
 
 
 /**
@@ -121,7 +136,7 @@ void BlockChainDump(const BlockChain& blockChain, ofstream& file);
  * @param file File to print to
  *
 */
-void BlockChainDumpHashed(const BlockChain& blockChain, ofstream& file);
+void BlockChainDumpHashed(const BlockChain &blockChain, ofstream &file);
 
 
 /**
@@ -138,7 +153,7 @@ void BlockChainDumpHashed(const BlockChain& blockChain, ofstream& file);
  *
  * @return true if the file is valid, false otherwise
 */
-bool BlockChainVerifyFile(const BlockChain& blockChain, std::ifstream& file);
+bool BlockChainVerifyFile(const BlockChain &blockChain, std::ifstream &file);
 
 
 /**
@@ -147,7 +162,7 @@ bool BlockChainVerifyFile(const BlockChain& blockChain, std::ifstream& file);
  *
  * @param blockChain BlockChain to compress
 */
-void BlockChainCompress(BlockChain& blockChain);
+void BlockChainCompress(BlockChain &blockChain);
 
 
 /**
@@ -156,4 +171,15 @@ void BlockChainCompress(BlockChain& blockChain);
  * @param blockChain BlockChain to update
  * @param function a pointer to a transform function
 */
-void BlockChainTransform(BlockChain& blockChain, updateFunction function);
+void BlockChainTransform(BlockChain &blockChain, updateFunction function);
+
+/**
+ * BlockChainDelete - Deletes the chain's blocks (due to dynamic memory
+ * allocation used in BlockChainAppendTransaction).
+ *
+ * @param blockChain BlockChain to delete variables from
+ * @note - Added function
+ * @author Eden
+*/
+
+void BlockChainDelete(BlockChain &blockChain);
