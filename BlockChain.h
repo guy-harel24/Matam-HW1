@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <string>
@@ -7,14 +6,11 @@
 
 #define STARTING_SIZE 0
 
-
 using std::string;
 using std::ifstream;
 using std::ofstream;
 
-
 typedef unsigned int (*updateFunction)(unsigned int);
-
 
 /**
  *
@@ -23,17 +19,19 @@ typedef unsigned int (*updateFunction)(unsigned int);
  * @author - Eden
  */
 struct Block {
-    Transaction transaction;
-    string timestamp;
-    Block *previousTransaction;
+    Transaction memTransaction;
+    string memTimestamp;
+    Block *memPreviousTransaction;
 };
 
 /**
  * @struct BlockChain - Defining the new BlockChain Type
+ * @note Make sure to use BlockChainDelete when the block chain is no longer
+ * in order to release allocated space.
 */
 struct BlockChain {
-    Block *head = nullptr;
-    int size = STARTING_SIZE;
+    Block *memHead = nullptr;
+    int memSize = STARTING_SIZE;
 };
 
 /**
@@ -60,13 +58,13 @@ int BlockChainPersonalBalance(const BlockChain &blockChain, const string &name);
 
 
 /**
- * BlockChainAppendTransaction - creates and appends a new transaction to the BlockChain
+ * BlockChainAppendTransaction - creates and appends a new memTransaction to the BlockChain
  *
- * @param blockChain BlockChain to append the transaction to
- * @param value Value of the transaction
+ * @param blockChain BlockChain to append the memTransaction to
+ * @param value Value of the memTransaction
  * @param sender Name of the sender
  * @param receiver Name of the receiver
- * @param timestamp String that holds the time the transaction was made
+ * @param timestamp String that holds the time the memTransaction was made
  * @editor Eden
 */
 void BlockChainAppendTransaction(
@@ -79,11 +77,11 @@ void BlockChainAppendTransaction(
 
 
 /**
- * BlockChainAppendTransaction - appends a copy of a given transaction to the BlockChain
+ * BlockChainAppendTransaction - appends a copy of a given memTransaction to the BlockChain
  *
- * @param blockChain BlockChain to append the transaction to
+ * @param blockChain BlockChain to append the memTransaction to
  * @param transaction Transaction we want to append
- * @param timestamp String that holds the time the transaction was made
+ * @param timestamp String that holds the time the memTransaction was made
  * @editor Eden
 */
 void BlockChainAppendTransaction(
@@ -157,7 +155,7 @@ bool BlockChainVerifyFile(const BlockChain &blockChain, std::ifstream &file);
 
 
 /**
- * BlockChainCompress - Compresses the given block chain based on the transaction's data.
+ * BlockChainCompress - Compresses the given block chain based on the memTransaction's data.
  * All consecutive blocks with the same sender and receiver will be compressed to one Block.
  *
  * @param blockChain BlockChain to compress
@@ -166,7 +164,7 @@ void BlockChainCompress(BlockChain &blockChain);
 
 
 /**
- * BlockChainTransform - Update the values of each transaction in the BlockChain
+ * BlockChainTransform - Update the values of each memTransaction in the BlockChain
  *
  * @param blockChain BlockChain to update
  * @param function a pointer to a transform function
