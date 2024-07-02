@@ -1,12 +1,15 @@
 cmake_minimum_required(VERSION 3.27)
-project(HW1_WORKSHEET)
+project(HW1)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 
-add_executable(HW1_WORKSHEET mtm_blockchain.cpp
-        Transaction.h
-        Utilities.h
-        Utilities.cpp
-        Transaction.cpp
+include_directories(.)
+
+add_executable(HW1
+        BlockChain.cpp
         BlockChain.h
-        BlockChain.cpp)
+        main.cpp
+        Transaction.cpp
+        Transaction.h
+        Utilities.cpp
+        Utilities.h)

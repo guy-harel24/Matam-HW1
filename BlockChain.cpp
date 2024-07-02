@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+# include <cassert>
 #include "BlockChain.h"
 
 #define VARIABLES_IN_TRANS 4
@@ -101,15 +102,59 @@ BlockChain BlockChainLoad(ifstream &file) {
 
 
 // needs implementation
-void BlockChainDump(const BlockChain &blockChain, ofstream &file);
+void BlockChainDump(const BlockChain &blockChain, ofstream &file)
+{
+    file << "BlockChain Info:" << endl;
+    int i = 1;
+    Block* block = blockChain.memHead;
+    while (block != nullptr)
+    {
+        Transaction& trans = block->memTransaction;
+        file << i << "." << endl;
+        file << "Sender Name: " << trans.sender << endl;
+        file << "Receiver Name: " << trans.receiver << endl;
+        file << "Transaction Value: " << trans.value << endl;
+        file << "Transaction timestamp: " << block->memTimestamp << endl;
+        i++;
+        block = block->memPreviousTransaction;
+    }
+}
 
 
 // needs implementation
-void BlockChainDumpHashed(const BlockChain &blockChain, ofstream &file);
+void BlockChainDumpHashed(const BlockChain &blockChain, ofstream &file)
+{
+    Block* block = blockChain.memHead;
 
+    while (true)
+    {
+        Transaction& trans = block->memTransaction;
+        file << TransactionHashedMessage(trans);
+        block = block->memPreviousTransaction;
+        if (block != nullptr){
+            file << endl;
+        } else {
+            break;
+        }
+    }
+}
 
 // needs implementation
-bool BlockChainVerifyFile(const BlockChain &blockChain, std::ifstream &file);
+bool BlockChainVerifyFile(const BlockChain &blockChain, std::ifstream &file)
+{
+    Block* block = blockChain.memHead;
+    bool verify = true;
+    string hash;
+    while (!file.eof() && block != nullptr && verify)
+    {
+        Transaction& trans= block->memTransaction;
+        getline(file, hash);
+        verify = TransactionVerifyHashedMessage(trans,
+                                                hash);
+    }
+    assert(file.eof() && block == nullptr);
+    return verify;
+}
 
 
 // needs implementation
