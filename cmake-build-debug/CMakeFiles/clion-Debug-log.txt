@@ -1,1 +1,1 @@
-CMakeLists.txt not found in \\wsl.localhost\Ubuntu\home\guy_harel\HW1 Select CMakeLists.txt
+CMakeLists.txt not found in C:\Users\User\Documents\MATAM EX\2git\HW1 Select CMakeLists.txt
