@@ -20,6 +20,7 @@ int main(int argc, char ** argv)
     BlockChainAppendTransaction(blockchain, transaction3, "13:32");
 
     BlockChainDump(blockchain, cout);
+    BlockChainDelete(blockchain);
 
     return 0;
 }
