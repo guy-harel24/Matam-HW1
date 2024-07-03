@@ -101,8 +101,8 @@ BlockChain BlockChainLoad(ifstream &file) {
 }
 
 
-// needs implementation
-void BlockChainDump(const BlockChain &blockChain, ofstream &file)
+// implemented by guy
+void BlockChainDump(const BlockChain &blockChain, std::ostream &file)
 {
     file << "BlockChain Info:" << endl;
     int i = 1;
@@ -121,8 +121,8 @@ void BlockChainDump(const BlockChain &blockChain, ofstream &file)
 }
 
 
-// needs implementation
-void BlockChainDumpHashed(const BlockChain &blockChain, ofstream &file)
+// implemented by guy
+void BlockChainDumpHashed(const BlockChain &blockChain, ostream &file)
 {
     Block* block = blockChain.memHead;
 
@@ -139,8 +139,8 @@ void BlockChainDumpHashed(const BlockChain &blockChain, ofstream &file)
     }
 }
 
-// needs implementation
-bool BlockChainVerifyFile(const BlockChain &blockChain, std::ifstream &file)
+// implemented by guy
+bool BlockChainVerifyFile(const BlockChain &blockChain, istream &file)
 {
     Block* block = blockChain.memHead;
     bool verify = true;
@@ -151,18 +151,52 @@ bool BlockChainVerifyFile(const BlockChain &blockChain, std::ifstream &file)
         getline(file, hash);
         verify = TransactionVerifyHashedMessage(trans,
                                                 hash);
+        block = block->memPreviousTransaction;
     }
     assert(file.eof() && block == nullptr);
     return verify;
 }
 
 
-// needs implementation
-void BlockChainCompress(BlockChain &blockChain);
+// implemented by guy
+void BlockChainCompress(BlockChain &blockChain)
+{
+    Block* block1 = blockChain.memHead;
+    if (block1 == nullptr) return;
+    Block* block2 = block1->memPreviousTransaction;
+    while (block2 != nullptr)
+    {
+        Transaction& trans1 = block1->memTransaction;
+        Transaction& trans2 = block2->memTransaction;
+        if(trans1.sender == trans2.sender &&
+                                trans1.receiver == trans2.receiver)
+        {
+            trans1.value += trans2.value;
+            block1->memTimestamp = block2->memTimestamp;
+            block1->memPreviousTransaction = block2->memPreviousTransaction;
+            delete(block2);
+        } else {
+            block1 = block1->memPreviousTransaction;
+            assert(block1 != nullptr);
+        }
+        block2 = block1->memPreviousTransaction;
+    }
+}
 
 
-// needs implementation
-void BlockChainTransform(BlockChain &blockChain, updateFunction function);
+//implemented by- Guy
+void BlockChainTransform(BlockChain &blockChain,
+                         updateFunction function)
+{
+    Block* block = blockChain.memHead;
+    while (block != nullptr)
+    {
+        Transaction& trans = block->memTransaction;
+        unsigned int value = trans.value;
+        trans.value = function(value);
+        block = block->memPreviousTransaction;
+    }
+}
 
 // implemented by - Eden
 void BlockChainDelete(BlockChain &blockChain) {

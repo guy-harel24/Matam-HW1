@@ -9,6 +9,8 @@
 using std::string;
 using std::ifstream;
 using std::ofstream;
+using std::ostream;
+using std::istream;
 
 typedef unsigned int (*updateFunction)(unsigned int);
 
@@ -118,7 +120,7 @@ BlockChain BlockChainLoad(ifstream &file);
  * @param file File to print to
  *
 */
-void BlockChainDump(const BlockChain &blockChain, ofstream &file);
+void BlockChainDump(const BlockChain &blockChain, ostream &file);
 
 
 /**
@@ -134,7 +136,7 @@ void BlockChainDump(const BlockChain &blockChain, ofstream &file);
  * @param file File to print to
  *
 */
-void BlockChainDumpHashed(const BlockChain &blockChain, ofstream &file);
+void BlockChainDumpHashed(const BlockChain &blockChain, ostream &file);
 
 
 /**
@@ -151,7 +153,7 @@ void BlockChainDumpHashed(const BlockChain &blockChain, ofstream &file);
  *
  * @return true if the file is valid, false otherwise
 */
-bool BlockChainVerifyFile(const BlockChain &blockChain, std::ifstream &file);
+bool BlockChainVerifyFile(const BlockChain &blockChain, istream &file);
 
 
 /**
@@ -167,10 +169,10 @@ void BlockChainCompress(BlockChain &blockChain);
  * BlockChainTransform - Update the values of each memTransaction in the BlockChain
  *
  * @param blockChain BlockChain to update
- * @param function a pointer to a transform function
+ * @param operation a pointer to a transform function
 */
-void BlockChainTransform(BlockChain &blockChain, updateFunction function);
-
+void BlockChainTransform(BlockChain &blockChain,
+                         updateFunction function);
 /**
  * BlockChainDelete - Deletes the chain's blocks (due to dynamic memory
  * allocation used in BlockChainAppendTransaction).
