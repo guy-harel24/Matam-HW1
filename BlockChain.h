@@ -183,3 +183,11 @@ void BlockChainTransform(BlockChain &blockChain,
 */
 
 void BlockChainDelete(BlockChain &blockChain);
+
+/**
+ * BlockChainReverse - Reverses the order of the chain
+ *
+ * @param blockChain BlockChain to reverse
+ * @author Eden
+*/
+void BlockChainReverse(BlockChain &blockChain);

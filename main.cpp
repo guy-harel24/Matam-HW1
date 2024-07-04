@@ -3,23 +3,45 @@
 //
 #include "BlockChain.h"
 #include <iostream>  // Include for cout
+#include <string>
 using namespace std;
 
+enum execute{
+    starting, op, source, target
+};
 
 int main(int argc, char ** argv)
 {
+    if (argc != 4){
+        cout << "Usage: ./mtm_blockchain <op> <source> <target>" << endl;
+        return 0;
+    }
+
     BlockChain blockchain;
+    ifstream source(argv[::source]);
+    blockchain = BlockChainLoad(source);
+    string format = "format", hash = "hash", compress = "compress",
+    verify = "verify";
 
-    // Create transactions
-    Transaction transaction1 = {100, "Alice", "Bob"};
-    Transaction transaction2 = {200, "Alice", "Bob"};
-    Transaction transaction3 = {300, "Charlie", "David"};
+    if (argv[op] == format){
+        ofstream target(argv[::target]);
+        BlockChainDump(blockchain, target);
+    } else if (argv[op] == hash) {
+        ofstream target(argv[::target]);
+        BlockChainDumpHashed(blockchain, target);
+    } else if (argv[op] == compress) {
+        ofstream target(argv[::target]);
+        BlockChainCompress(blockchain);
+        BlockChainDump(blockchain, target);
+    } else if (argv[op] == verify){
+        ifstream target(argv[::target]);
+        if (BlockChainVerifyFile(blockchain, target)){
+            cout << "Verification passed" << endl;
+        } else {
+            cout << "Verification failed" << endl;
+        }
 
-    BlockChainAppendTransaction(blockchain, transaction1, "13:30");
-    BlockChainAppendTransaction(blockchain, transaction2, "13:31");
-    BlockChainAppendTransaction(blockchain, transaction3, "13:32");
-
-    BlockChainDump(blockchain, cout);
+    }
     BlockChainDelete(blockchain);
 
     return 0;

@@ -96,7 +96,7 @@ BlockChain BlockChainLoad(ifstream &file) {
                                    variables[Receiver]};
         BlockChainAppendTransaction(chain, transaction, variables[Timestamp]);
     }
-
+    BlockChainReverse(chain);
     return chain;
 }
 
@@ -172,7 +172,6 @@ void BlockChainCompress(BlockChain &blockChain)
                                 trans1.receiver == trans2.receiver)
         {
             trans1.value += trans2.value;
-            block1->memTimestamp = block2->memTimestamp;
             block1->memPreviousTransaction = block2->memPreviousTransaction;
             delete(block2);
         } else {
@@ -204,5 +203,19 @@ void BlockChainDelete(BlockChain &blockChain) {
         Block *temp = blockChain.memHead;
         blockChain.memHead = blockChain.memHead->memPreviousTransaction;
         delete temp;
+    }
+}
+
+void BlockChainReverse(BlockChain &blockChain){
+    if (blockChain.memHead == nullptr){
+        return;
+    }
+    Block *temp = blockChain.memHead->memPreviousTransaction;
+    blockChain.memHead -> memPreviousTransaction = nullptr;
+    while (temp != nullptr){
+        Block *next = temp->memPreviousTransaction;
+        temp->memPreviousTransaction = blockChain.memHead;
+        blockChain.memHead = temp;
+        temp = next;
     }
 }
