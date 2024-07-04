@@ -41,6 +41,9 @@ int main(int argc, char ** argv)
             cout << "Verification failed" << endl;
         }
 
+    } else {
+        cout << "Usage: ./mtm_blockchain <op> <source> <target>" << endl;
+        return 0;
     }
     BlockChainDelete(blockchain);
 

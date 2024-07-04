@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "HW1::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-HW1-Debug-e9c4b544be97213ec23f.json",
+					"jsonFile" : "target-HW1-Debug-f4c8c575b05336677364.json",
 					"name" : "HW1",
 					"projectIndex" : 0
 				}
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/User/Documents/MATAM EX/2git/HW1/cmake-build-debug",
-		"source" : "C:/Users/User/Documents/MATAM EX/2git/HW1"
+		"build" : "C:/Users/User/Documents/MATAM_EX/2git/HW1/cmake-build-debug",
+		"source" : "C:/Users/User/Documents/MATAM_EX/2git/HW1"
 	},
 	"version" : 
 	{
